@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "reviewed": "2026-10-16",
+  "maxRuleAgeDays": 120,
+  "note": "Scoring weights and baselines are judgement calls, documented in docs/SCORING.md. Review and tune them.",
+
+  "classBaseline": { "hosted": 92, "api-hosted": 82, "self-hosted": 55, "off-website": 60 },
+  "paymentPageClasses": ["self-hosted", "api-hosted"],
+  "severityPoints": { "critical": 30, "high": 18, "medium": 10, "low": 4, "info": 0 },
+  "caps": { "provider": 55, "client": 20 },
+  "grades": [
+    { "min": 90, "grade": "A" },
+    { "min": 75, "grade": "B" },
+    { "min": 60, "grade": "C" },
+    { "min": 40, "grade": "D" },
+    { "min": 0, "grade": "F" }
+  ],
+
+  "thirdPartyScripts": { "medium": 6, "high": 15, "paymentPageFactor": 0.5 },
+  "sriMediumCount": 3,
+
+  "client": {
+    "chromiumLatestKnown": 155,
+    "lagMedium": 4,
+    "lagHigh": 10,
+    "macMinMajor": 14,
+    "androidMinMajor": 12
+  },
+
+  "libraries": [
+    { "name": "jQuery", "pattern": "jquery[-.@/]v?(\\d+\\.\\d+\\.\\d+)", "fixedIn": ["3.5.0"], "severity": "medium",
+      "note": "Versions before 3.5.0 have known XSS issues (CVE-2020-11022, CVE-2020-11023)." },
+    { "name": "Bootstrap", "pattern": "bootstrap[-.@/]v?(\\d+\\.\\d+\\.\\d+)", "fixedIn": ["3.4.1", "4.3.1"], "severity": "medium",
+      "note": "Older 3.x/4.x versions have a known XSS issue (CVE-2019-8331)." },
+    { "name": "AngularJS", "pattern": "angular(?:\\.js)?[-.@/]v?(1\\.\\d+\\.\\d+)", "eol": true, "severity": "medium",
+      "note": "AngularJS 1.x reached end of life on 31 Dec 2021 and no longer gets security fixes." },
+    { "name": "lodash", "pattern": "lodash(?:\\.js)?(?:\\.min)?[-.@/]v?(\\d+\\.\\d+\\.\\d+)", "fixedIn": ["4.17.21"], "severity": "medium",
+      "note": "Versions before 4.17.21 have known prototype pollution and command injection issues (CVE-2020-8203, CVE-2021-23337)." },
+    { "name": "Moment.js", "pattern": "moment(?:\\.js)?(?:\\.min)?[-.@/]v?(\\d+\\.\\d+\\.\\d+)", "fixedIn": ["2.29.4"], "severity": "low",
+      "note": "Versions before 2.29.4 have a ReDoS issue (CVE-2022-31129)." }
+  ],
+
+  "attackNames": {
+    "T1557": "Adversary-in-the-Middle",
+    "T1040": "Network Sniffing",
+    "T1059.007": "Command and Scripting Interpreter: JavaScript",
+    "T1189": "Drive-by Compromise",
+    "T1195": "Supply Chain Compromise",
+    "T1056": "Input Capture",
+    "T1041": "Exfiltration Over C2 Channel",
+    "T1592.002": "Gather Victim Host Information: Software",
+    "T1203": "Exploitation for Client Execution"
+  },
+
+  "saq": {
+    "hosted": "Redirect or hosted payment page: card data never touches the merchant site (typically PCI SAQ A).",
+    "api-hosted": "Gateway iframe or SDK on the merchant page: reduced scope, typically SAQ A or A-EP depending on implementation.",
+    "self-hosted": "Card data handled by the merchant's own page and servers: largest PCI scope (typically SAQ D).",
+    "off-website": "Payment is completed outside this page, so the page itself can't be directly assessed."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Payment Gateway Classifier",
+  "version": "0.2.0",
+  "description": "Passively detects a page's payment gateway integration type and gives a transparent security score mapped to MITRE ATT&CK and PCI DSS.",
+  "permissions": ["storage", "activeTab", "webRequest"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["src/util.js", "src/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Payment Gateway Classifier",
+    "default_popup": "popup/popup.html"
+  }
+}

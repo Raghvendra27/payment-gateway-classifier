@@ -1,0 +1,7 @@
+{
+  "name": "payment-gateway-classifier",
+  "version": "0.2.0",
+  "description": "Browser extension that passively classifies a page's payment gateway integration type.",
+  "license": "MIT",
+  "scripts": { "test": "node --test tests/*.test.js" }
+}
